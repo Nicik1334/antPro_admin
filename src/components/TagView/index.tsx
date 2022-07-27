@@ -156,7 +156,9 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     <>
       <RouteContext.Consumer>
         {(value: RouteContextType) => {
-          setCurrentPath(value.currentMenu?.path); //手动set更新渲染
+          setTimeout(() => {
+            setCurrentPath(value.currentMenu?.path); //手动set更新渲染
+          }, 0);
           routeContextRef.current = value;
           return null;
         }}
