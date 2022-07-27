@@ -1,7 +1,6 @@
 # AntdPro admin tabMenu
 
-````这个项目是用[Ant Design Pro](https://pro.ant.design)初始化的. 下面是如何使用的快速指南。
-```此外，添加自定义选项卡菜单栏，然后继续在此项目中添加和更新高质量组件。如果有必要，你可以一起学习这个项目。
+这个项目是用[Ant Design Pro](https://pro.ant.design)初始化的. 下面是如何使用的快速指南。<br> 此外，添加自定义选项卡菜单栏，然后继续在此项目中添加和更新高质量组件。如果有必要，你可以一起学习这个项目。
 
 ## 环境准备
 
@@ -9,7 +8,7 @@ Install `node_modules`:
 
 ```bash
 npm install
-````
+```
 
 or
 
