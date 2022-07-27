@@ -1,14 +1,15 @@
 # AntdPro admin tabMenu
 
-这个项目是用[Ant Design Pro](https://pro.ant.design)初始化的. 下面是如何使用的快速指南。此外，添加自定义选项卡菜单栏，然后继续在此项目中添加和更新高质量组件。如果有必要，你可以一起学习这个项目。
+````这个项目是用[Ant Design Pro](https://pro.ant.design)初始化的. 下面是如何使用的快速指南。
+```此外，添加自定义选项卡菜单栏，然后继续在此项目中添加和更新高质量组件。如果有必要，你可以一起学习这个项目。
 
-## Environment Prepare
+## 环境准备
 
 Install `node_modules`:
 
 ```bash
 npm install
-```
+````
 
 or
 
@@ -16,25 +17,23 @@ or
 yarn
 ```
 
-## Provided Scripts
+## 提供的脚本
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+Ant Design Pro 提供了一些有用的脚本，帮助您快速启动和构建 web 项目、代码样式检查和测试。 `package.json`中提供的脚本。可以安全地修改或添加其他脚本：
 
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
+### 启动项目
 
 ```bash
 npm start
 ```
 
-### Build project
+### 打包项目
 
 ```bash
 npm run build
 ```
 
-### Check code style
+### 检查代码
 
 ```bash
 npm run lint
@@ -46,7 +45,7 @@ You can also use script to auto fix some lint error:
 npm run lint:fix
 ```
 
-### Test code
+### 测试代码
 
 ```bash
 npm test
