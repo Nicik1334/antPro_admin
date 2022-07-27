@@ -1,6 +1,6 @@
-# Ant Design Pro
+# AntdPro admin tabMenu
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+这个项目是用[Ant Design Pro](https://pro.ant.design)初始化的. 下面是如何使用的快速指南。此外，添加自定义选项卡菜单栏，然后继续在此项目中添加和更新高质量组件。如果有必要，你可以一起学习这个项目。
 
 ## Environment Prepare
 
@@ -51,7 +51,3 @@ npm run lint:fix
 ```bash
 npm test
 ```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
