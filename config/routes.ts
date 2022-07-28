@@ -30,10 +30,10 @@ export default [
       },
     ],
   },
-  // {
-  //   path: '/',
-  //   redirect: '/Welcome',
-  // },
+  {
+    path: '/',
+    redirect: '/Welcome',
+  },
   {
     name: '首页',
     icon: 'smile',
@@ -279,13 +279,11 @@ export default [
         path: '/practice/chatUI',
         component: './practice/chatUI',
       },
+      {
+        name: '聊天室Pro',
+        path: '/practice/chatUIPro',
+        component: './practice/chatUIPro',
+      },
     ],
-  },
-  {
-    path: '/',
-    redirect: '/dashboard/analysis',
-  },
-  {
-    component: '404',
   },
 ];

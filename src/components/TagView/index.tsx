@@ -37,15 +37,31 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
 
   // 初始化 visitedViews
   const initTags = (routeContext: RouteContextType) => {
-    const { menuData, currentMenu } = routeContext;
-    if (tagList.length === 0 && menuData) {
-      // const HomeTag = menuData.filter((el) => el.path === home)[0]; //如果当前没有路由则跳转到首页
-      const title = currentMenu?.name;
-      const path = currentMenu?.path;
-      history.push({ pathname: path });
+    const {
+      menuData = [],
+      currentMenu,
+      location: { query },
+    } = routeContext;
+
+    const HomeTag = menuData.filter((el) => el.path === home)[0]; //如果当前没有路由则跳转到首页
+    const path = currentMenu?.path;
+    if (path === '/') {
+      // 如果路由是 "/" 则重定向首页（自定义）
+      history.push({ pathname: HomeTag.path, query });
       setTagList([
         {
-          title,
+          title: HomeTag.name,
+          path: HomeTag.path,
+          children,
+          refresh: 0,
+          active: true,
+        },
+      ]);
+    } else {
+      history.push({ pathname: path, query });
+      setTagList([
+        {
+          title: currentMenu?.name,
           path,
           children,
           refresh: 0,
@@ -58,7 +74,6 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
   // 监听路由改变 routeContext为当前路由信息
   const handleOnChange = (routeContext: RouteContextType) => {
     const { currentMenu } = routeContext;
-
     if (tagList.length === 0) {
       return initTags(routeContext);
     }
@@ -67,7 +82,6 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     let hasOpen = false;
     const tagsCopy: TagsItemType[] = tagList.map((item) => {
       if (currentMenu?.path === item.path) {
-        //获取当前路由childern
         hasOpen = true;
         // 刷新浏览器时，重新覆盖当前 path 的 children
         return { ...item, active: true, children };
@@ -75,20 +89,23 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
         return { ...item, active: false };
       }
     });
+
     // 没有该tag时追加一个,并打开这个tag页面,刷新页面后 tagList为[]（已被上面拦截）、跳转新路由 都会被触发
     if (!hasOpen) {
-      const title = routeContext.title || '';
       const path = currentMenu?.path;
-      history.push({ pathname: path });
+      const {
+        location: { query },
+      } = routeContext;
+      history.push({ pathname: path, query });
       tagsCopy.push({
-        title,
+        title: routeContext.title || '',
         path,
         children,
         refresh: 0,
         active: true,
       });
     }
-    return setTagList(tagsCopy);
+    setTagList(tagsCopy);
   };
 
   // 关闭标签
@@ -114,7 +131,6 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     const tagsCopy: TagsItemType[] = tagList.filter((el) => el.path === home);
     if (tagsCopy.length !== 0) {
       //表示路由栏有首页标签
-
       setTagList([{ ...tagsCopy[0], children, refresh: 0, active: true }]);
     } else {
       const menuData = routeContextRef.current?.menuData || [];
@@ -178,7 +194,7 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
       {tagList.map((item) => {
         return (
           <div key={item.path} style={{ display: item.active ? 'block' : 'none' }}>
-            <div key={item.refresh}>{item.children}</div>
+            <div>{item.children}</div>
           </div>
         );
       })}
