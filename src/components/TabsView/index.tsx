@@ -1,15 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { RouteContext } from '@ant-design/pro-layout';
 import type { RouteContextType } from '@ant-design/pro-layout';
 import { history } from 'umi';
-import Tags from './Tags';
-import styles from './index.less';
+import TabsMenu from './TabsMenu';
 
 export type TagsItemType = {
   title?: string;
+  icon?: string | any;
   path?: string;
   active: boolean;
   query?: any;
@@ -26,14 +26,9 @@ interface IProps {
  */
 const TagView: React.FC<IProps> = ({ children, home }) => {
   const [tagList, setTagList] = useState<TagsItemType[]>([]);
-  const [_currentPath, setCurrentPath] = useState<any>();
+  const [_, setCurrentPath] = useState<any>();
+  const [pathKey, setPathKey] = useState<any>('');
   const routeContextRef = useRef<RouteContextType>();
-
-  useEffect(() => {
-    if (routeContextRef.current) {
-      handleOnChange(routeContextRef.current);
-    }
-  }, [routeContextRef.current]);
 
   // 初始化 visitedViews
   const initTags = (routeContext: RouteContextType) => {
@@ -48,6 +43,7 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     if (path === '/') {
       // 如果路由是 "/" 则重定向首页（自定义）
       history.push({ pathname: HomeTag.path, query });
+      setPathKey(HomeTag?.path);
       setTagList([
         {
           title: HomeTag.name,
@@ -55,10 +51,12 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
           children,
           refresh: 0,
           active: true,
+          icon: currentMenu?.icon,
         },
       ]);
     } else {
       history.push({ pathname: path, query });
+      setPathKey(path);
       setTagList([
         {
           title: currentMenu?.name,
@@ -66,6 +64,7 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
           children,
           refresh: 0,
           active: true,
+          icon: currentMenu?.icon,
         },
       ]);
     }
@@ -93,6 +92,8 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     // 没有该tag时追加一个,并打开这个tag页面,刷新页面后 tagList为[]（已被上面拦截）、跳转新路由 都会被触发
     if (!hasOpen) {
       const path = currentMenu?.path;
+      console.log(routeContext);
+
       const {
         location: { query },
       } = routeContext;
@@ -103,8 +104,10 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
         children,
         refresh: 0,
         active: true,
+        icon: currentMenu?.icon,
       });
     }
+    setPathKey(currentMenu?.path);
     setTagList(tagsCopy);
   };
 
@@ -149,9 +152,7 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
 
   // 关闭其他标签
   const handleCloseOther = (tag: TagsItemType) => {
-    const tagsCopy: TagsItemType[] = tagList.filter(
-      (el) => el.path === home || el.path === tag.path,
-    );
+    const tagsCopy: TagsItemType[] = tagList.filter((el) => el.path === tag.path);
     history.push({ pathname: tag?.path, query: tag?.query });
     setTagList(tagsCopy);
   };
@@ -168,8 +169,22 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
     setTagList(tagsCopy);
   };
 
+  useEffect(() => {
+    if (routeContextRef.current) {
+      handleOnChange(routeContextRef.current);
+    }
+  }, [routeContextRef.current]);
+
   return (
     <>
+      <TabsMenu
+        tagList={tagList}
+        closeTag={handleCloseTag}
+        closeAllTag={handleCloseAll}
+        closeOtherTag={handleCloseOther}
+        refreshTag={handleRefreshTag}
+        activeKey={pathKey}
+      />
       <RouteContext.Consumer>
         {(value: RouteContextType) => {
           setTimeout(() => {
@@ -179,25 +194,6 @@ const TagView: React.FC<IProps> = ({ children, home }) => {
           return null;
         }}
       </RouteContext.Consumer>
-      <div className={styles.tag_view}>
-        <div className={styles.tags_container}>
-          <Tags
-            tagList={tagList}
-            closeTag={handleCloseTag}
-            closeAllTag={handleCloseAll}
-            closeOtherTag={handleCloseOther}
-            refreshTag={handleRefreshTag}
-          />
-        </div>
-      </div>
-
-      {tagList.map((item) => {
-        return (
-          <div key={item.path} style={{ display: item.active ? 'block' : 'none' }}>
-            <div>{item.children}</div>
-          </div>
-        );
-      })}
     </>
   );
 };

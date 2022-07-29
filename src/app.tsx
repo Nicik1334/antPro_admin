@@ -6,11 +6,11 @@ import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
-import TagView from '@/components/TagView';
+// import TagView from '@/components/TagView';
+import TabsView from '@/components/TabsView';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -67,7 +67,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       //获取切换的页面地址
       const { location } = history;
-      console.log(' ', location, initialState);
       // 如果没有登录且不是登录页面，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
@@ -115,7 +114,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         <>
           {initialState?.currentUser && location.pathname !== loginPath ? (
             <>
-              <TagView children={<>{children}</>} home="/Welcome" />
+              <TabsView children={<>{children}</>} home="/Welcome" />
               {!props.location?.pathname?.includes('/login') && (
                 <SettingDrawer
                   disableUrlParams

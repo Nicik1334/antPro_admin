@@ -3,20 +3,27 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useState, useRef, useEffect } from 'react';
 import { history } from 'umi';
-import { Scrollbars } from 'react-custom-scrollbars';
-import { CloseOutlined } from '@ant-design/icons';
 import type { TagsItemType } from '../index';
 import styles from './index.less';
+import { Tabs } from 'antd';
 
 interface IProps {
   tagList: TagsItemType[];
+  activeKey: string;
   closeTag: (tag: TagsItemType) => void;
   closeAllTag: () => void;
   closeOtherTag: (tag: TagsItemType) => void;
   refreshTag: (tag: TagsItemType) => void;
 }
 
-const Tags: React.FC<IProps> = ({ tagList, closeTag, closeAllTag, closeOtherTag, refreshTag }) => {
+const TabsMenu: React.FC<IProps> = ({
+  tagList,
+  activeKey,
+  closeTag,
+  closeAllTag,
+  closeOtherTag,
+  refreshTag,
+}) => {
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -66,25 +73,41 @@ const Tags: React.FC<IProps> = ({ tagList, closeTag, closeAllTag, closeOtherTag,
 
   return (
     <div className={styles.tags_wrapper} ref={tagListRef}>
-      <Scrollbars autoHide autoHideTimeout={1000} autoHideDuration={200}>
-        {tagList.map((item) => (
-          <div
-            key={item.path}
-            className={item.active ? `${styles.item} ${styles.active}` : styles.item}
-            onClick={() => history.push({ pathname: item.path, query: item.query })}
-            onContextMenu={(e) => openContextMenu(e, item)}
+      <Tabs
+        hideAdd
+        activeKey={activeKey}
+        size="small"
+        type="editable-card"
+        onEdit={(targetKey, action) => {
+          if (action === 'remove') {
+            const tabArr = tagList.filter((item) => item.path === targetKey);
+            if (tabArr.length > 0) closeTag(tabArr[0]);
+          }
+        }}
+      >
+        {tagList.map((pane) => (
+          <Tabs.TabPane
+            forceRender
+            tab={
+              <div
+                onContextMenu={(e) => openContextMenu(e, pane)}
+                onClick={() => history.push({ pathname: pane.path, query: pane.query })}
+              >
+                {pane.title}
+              </div>
+            }
+            key={pane.path}
           >
-            <span>{item.title}</span>
-            <CloseOutlined
-              className={styles.icon_close}
-              onClick={(e) => {
-                e.stopPropagation();
-                closeTag && closeTag(item);
+            <div
+              style={{
+                margin: '0 24px 24px',
               }}
-            />
-          </div>
+            >
+              {pane.children}
+            </div>
+          </Tabs.TabPane>
         ))}
-      </Scrollbars>
+      </Tabs>
       {menuVisible ? (
         <ul
           className={styles.contextmenu}
@@ -97,7 +120,7 @@ const Tags: React.FC<IProps> = ({ tagList, closeTag, closeAllTag, closeOtherTag,
               currentTag && refreshTag && refreshTag(currentTag);
             }}
           >
-            刷新1
+            刷新
           </li>
           <li
             onClick={() => {
@@ -121,4 +144,4 @@ const Tags: React.FC<IProps> = ({ tagList, closeTag, closeAllTag, closeOtherTag,
   );
 };
 
-export default Tags;
+export default TabsMenu;
