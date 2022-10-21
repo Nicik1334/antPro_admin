@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-/* eslint-disable prefer-const */
 import _cloneDeep from 'lodash/cloneDeep';
-import { RefObject, useImperativeHandle, useRef } from 'react';
+import type { RefObject } from 'react';
+import { useImperativeHandle, useRef } from 'react';
 
 export declare type ShowInstance<T = any> = {
   show: (record: T) => void;
@@ -36,13 +35,13 @@ export default function useShow<T = any>(
   funcRef: RefObject<ShowInstance<T>>,
   options: Options<T>,
 ): UseShowCallBackType<T> {
-  let ref = useRef({});
-  let callBackRef = useRef();
-  let onShow = options.onShow,
+  const ref = useRef({});
+  const callBackRef = useRef();
+  const onShow = options.onShow,
     onFormart = options.onFormart,
     onHide = options.onHide;
 
-  let onCallback = function onCallback(e: any) {
+  const onCallback = function onCallback(e: any) {
     callBackRef.current = e;
   };
 

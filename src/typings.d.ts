@@ -17,6 +17,8 @@ declare module 'mockjs';
 declare module 'react-fittext';
 declare module 'bizcharts-plugin-slider';
 declare module 'react-custom-scrollbars';
+declare module '@ant-design/pro-descriptions';
+declare module 'react/jsx-runtime';
 
 // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design Dedicated environment variable, please do not use it in your project.

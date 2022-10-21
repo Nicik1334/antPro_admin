@@ -109,7 +109,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //     </>
     //   );
     // },
-    childrenRender: (children: React.ReactNode, props) => {
+    childrenRender: (
+      children: React.ReactNode,
+      props: { location: { pathname: string | string[] } },
+    ) => {
       return (
         <>
           {initialState?.currentUser && location.pathname !== loginPath ? (
@@ -120,8 +123,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
                   disableUrlParams
                   enableDarkTheme
                   settings={initialState?.settings}
-                  onSettingChange={(settings) => {
-                    setInitialState((preInitialState) => ({
+                  onSettingChange={(settings: any) => {
+                    setInitialState((preInitialState: any) => ({
                       ...preInitialState,
                       settings,
                     }));

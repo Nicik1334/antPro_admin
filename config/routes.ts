@@ -270,9 +270,9 @@ export default [
         redirect: '/practice/demo',
       },
       {
-        name: 'Demo练习',
-        path: '/practice/demo',
-        component: './practice/demo',
+        name: 'list练习',
+        path: '/practice/demoList',
+        component: './practice/demoList',
       },
       {
         name: '聊天室',
@@ -280,9 +280,9 @@ export default [
         component: './practice/chatUI',
       },
       {
-        name: '聊天室Pro',
-        path: '/practice/chatUIPro',
-        component: './practice/chatUIPro',
+        name: '组件室',
+        path: '/practice/demoRoom',
+        component: './practice/demoRoom',
       },
     ],
   },

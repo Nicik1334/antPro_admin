@@ -27,6 +27,7 @@ const Index = () => {
       title: '描述',
       dataIndex: 'desc',
       valueType: 'textarea',
+      copyable: true,
     },
     {
       title: '服务调用次数',

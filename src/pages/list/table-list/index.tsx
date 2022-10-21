@@ -5,12 +5,13 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { rule, addRule, updateRule, removeRule } from './service';
 import type { TableListItem, TableListPagination } from './data';
+import { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
+
 /**
  * 添加节点
  *
@@ -112,6 +113,7 @@ const TableList: React.FC = () => {
       title: '描述',
       dataIndex: 'desc',
       valueType: 'textarea',
+      copyable: true,
     },
     {
       title: '服务调用次数',
